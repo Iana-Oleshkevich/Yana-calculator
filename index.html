@@ -16,4 +16,235 @@
     .col-12{grid-column:span 12} .col-6{grid-column:span 12} @media(min-width:680px){.col-6{grid-column:span 6}}
     label{display:block;font-size:13px;color:#c6c9d6;margin:4px 0 6px}
     input,select{width:100%;background:#0e1020;border:1px solid #23263a;color:var(--text);border-radius:12px;padding:12px 12px;font-size:15px;outline:none;transition:.2s}
-    input:focus,select:focus{border-c
+    input:focus,select:focus{border-color:var(--acc)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .muted{color:var(--muted);font-size:13px}
+    .btn{cursor:pointer;user-select:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid transparent;padding:12px 16px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:white;font-weight:600}
+    .btn.secondary{background:#15172b;border-color:#23263a}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+    .kpi{background:#0f1124;border:1px solid #23263a;border-radius:14px;padding:16px}
+    .kpi h3{margin:0 0 6px;font-size:13px;color:#c6c9d6;font-weight:600}
+    .kpi .val{font-variant-numeric:tabular-nums;letter-spacing:.2px;font-size:22px;font-weight:700}
+    .sep{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:18px 0}
+    .small{font-size:12px;color:#a7abbd}
+    .tag{display:inline-block;background:#111326;border:1px solid #23263a;border-radius:999px;color:#dfe2f4;padding:6px 10px;font-size:12px;margin-right:6px;margin-bottom:6px}
+    .header{margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .logo{width:64px;height:64px;border-radius:14px;object-fit:cover;border:1px solid #23263a;background:#0e1020}
+    .cta{display:flex;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- BRAND HEADER -->
+    <div class="card header">
+      <img id="brandLogo" class="logo" src="https://files.catbox.moe/placeholder-square.png" alt="logo"/>
+      <div style="flex:1 1 auto">
+        <div style="font-weight:800;font-size:18px;letter-spacing:.2px">Яна Олешкевич</div>
+        <div class="small" id="brandTag">Питайся осознанно · Тренируйся с умом · Светись на сцене ✨</div>
+      </div>
+      <div class="cta">
+        <a class="btn" id="btnSignup" href="https://t.me/" target="_blank" rel="noopener">Записаться</a>
+        <a class="btn secondary" id="btnWhatsApp" href="https://wa.me/" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn secondary" id="btnPrograms" href="https://taplink.cc/yanafit" target="_blank" rel="noopener">Мои программы</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>Калькулятор калорий (TDEE) и БЖУ</h1>
+      <p class="lead">Посчитай базовый обмен (BMR), суточную норму калорий (TDEE) и расклад БЖУ. Формула Миффлина-Сан Жеора. Ссылка сохраняет параметры — удобно для био.</p>
+
+      <div class="grid" id="form">
+        <div class="col-6">
+          <label>Пол</label>
+          <select id="sex"><option value="female">Женский</option><option value="male">Мужской</option></select>
+        </div>
+        <div class="col-6">
+          <label>Единицы</label>
+          <select id="units"><option value="metric">Метрические (кг, см)</option><option value="imperial">Имперские (lbs, ft/in)</option></select>
+        </div>
+
+        <div class="col-6">
+          <label>Возраст</label>
+          <input id="age" type="number" min="12" max="99" placeholder="напр., 32" value="32" />
+        </div>
+        <div class="col-6 metric">
+          <label>Рост (см)</label>
+          <input id="heightCm" type="number" min="120" max="230" placeholder="напр., 165" value="165" />
+        </div>
+        <div class="col-6 metric">
+          <label>Вес (кг)</label>
+          <input id="weightKg" type="number" min="35" max="250" placeholder="напр., 51" value="51" />
+        </div>
+        <div class="col-6 imperial" style="display:none">
+          <label>Рост (ft + in)</label>
+          <div class="row">
+            <input id="heightFt" type="number" min="3" max="7" placeholder="ft" />
+            <input id="heightIn" type="number" min="0" max="11" placeholder="in" />
+          </div>
+        </div>
+        <div class="col-6 imperial" style="display:none">
+          <label>Вес (фунты)</label>
+          <input id="weightLb" type="number" min="80" max="500" placeholder="lbs" />
+        </div>
+
+        <div class="col-12">
+          <label>Активность</label>
+          <select id="activity">
+            <option value="1.2">Минимальная (офис, мало шагов)</option>
+            <option value="1.375">Лёгкая (3 тренировки/неделя)</option>
+            <option value="1.55" selected>Средняя (3–5 тренировок/неделя)</option>
+            <option value="1.725">Высокая (6–7 тренировок/неделя)</option>
+            <option value="1.9">Очень высокая (физический труд + спорт)</option>
+          </select>
+        </div>
+
+        <div class="col-6">
+          <label>Белок (г/кг)</label>
+          <input id="proteinPerKg" type="number" step="0.1" min="1.2" max="2.6" value="1.8" />
+          <div class="small muted">Рекомендация при сушке: 1.6–2.2 г/кг</div>
+        </div>
+        <div class="col-6">
+          <label>Жир (г/кг)</label>
+          <input id="fatPerKg" type="number" step="0.1" min="0.6" max="1.2" value="0.8" />
+          <div class="small muted">Минимум для гормонов: ≥0.6 г/кг</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <button class="btn" id="calcBtn">Рассчитать</button>
+        <button class="btn secondary" id="shareBtn">Скопировать ссылку с моими данными</button>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="cards" id="results" hidden>
+        <div class="kpi"><h3>BMR (базовый обмен)</h3><div class="val" id="bmrVal">—</div><div class="small">ккал/день</div></div>
+        <div class="kpi"><h3>TDEE (поддержание)</h3><div class="val" id="tdeeVal">—</div><div class="small">ккал/день</div></div>
+        <div class="kpi"><h3>Сушка −20%</h3><div class="val" id="cut20Val">—</div><div class="small">умеренный дефицит</div></div>
+        <div class="kpi"><h3>Набор +10%</h3><div class="val" id="bulk10Val">—</div><div class="small">лёгкий профицит</div></div>
+      </div>
+
+      <div id="macros" hidden style="margin-top:10px" class="card">
+        <div class="kpi" style="background:#0e1020;border-color:#23263a">
+          <h3>БЖУ при выбранных нормативах (на поддержание)</h3>
+          <div class="val"><span id="proteinOut">—</span> белка · <span id="fatOut">—</span> жира · <span id="carbOut">—</span> углеводов</div>
+          <div class="small">Совет: на «Сушке −20%» белок и жир оставь по граммам, углеводы рассчитай как остаток.</div>
+        </div>
+        <div class="small muted">Формула Миффлина-Сан Жеора. Метрика/Имперские. Параметры сохраняются в ссылке.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    const $$ = (s)=>document.querySelectorAll(s);
+
+    function toggleUnits(){
+      const isMetric = $('#units').value === 'metric';
+      $$('.metric').forEach(el=>el.style.display = isMetric? 'block':'none');
+      $$('.imperial').forEach(el=>el.style.display = isMetric? 'none':'block');
+    }
+
+    function toMetric(){
+      if($('#units').value==='metric'){
+        return {
+          weightKg: parseFloat($('#weightKg').value||'0'),
+          heightCm: parseFloat($('#heightCm').value||'0')
+        }
+      } else {
+        const ft = parseFloat($('#heightFt').value||'0');
+        const inch = parseFloat($('#heightIn').value||'0');
+        const lb = parseFloat($('#weightLb').value||'0');
+        return { heightCm: (ft*12+inch)*2.54, weightKg: lb*0.453592 };
+      }
+    }
+
+    function calc(){
+      const sex = $('#sex').value;
+      const age = parseInt($('#age').value||'0',10);
+      const act = parseFloat($('#activity').value);
+      const {weightKg, heightCm} = toMetric();
+      const pPerKg = parseFloat($('#proteinPerKg').value||'1.8');
+      const fPerKg = parseFloat($('#fatPerKg').value||'0.8');
+
+      if(!age||!weightKg||!heightCm){
+        alert('Проверь возраст, рост и вес.');
+        return;
+      }
+      const s = sex==='male'? 5 : -161; // Mifflin-St Jeor
+      const bmr = 10*weightKg + 6.25*heightCm - 5*age + s;
+      const tdee = bmr * act;
+      const cut20 = tdee * 0.8;
+      const bulk10 = tdee * 1.1;
+
+      const protein = Math.round(pPerKg * weightKg); // g
+      const fat = Math.round(fPerKg * weightKg); // g
+      const kcalFromPF = protein*4 + fat*9;
+      const carbs = Math.max(0, Math.round((tdee - kcalFromPF)/4));
+
+      $('#bmrVal').textContent = Math.round(bmr) + ' ккал';
+      $('#tdeeVal').textContent = Math.round(tdee) + ' ккал';
+      $('#cut20Val').textContent = Math.round(cut20) + ' ккал';
+      $('#bulk10Val').textContent = Math.round(bulk10) + ' ккал';
+      $('#results').hidden = false;
+
+      $('#proteinOut').textContent = protein + ' г';
+      $('#fatOut').textContent = fat + ' г';
+      $('#carbOut').textContent = carbs + ' г';
+      $('#macros').hidden = false;
+
+      const params = new URLSearchParams({
+        sex, age, units: $('#units').value,
+        heightCm: Math.round(heightCm),
+        weightKg: +weightKg.toFixed(1),
+        activity: act,
+        pPerKg, fPerKg
+      });
+      ['logo','tag','b1','b1t','b2','b2t','b3','b3t'].forEach(k=>{
+        const v = new URLSearchParams(location.search).get(k);
+        if(v) params.set(k,v);
+      });
+      history.replaceState(null,'','?'+params.toString());
+    }
+
+    function loadFromURL(){
+      const q = new URLSearchParams(location.search);
+      const logo = q.get('logo');
+      const tag = q.get('tag');
+      const b1 = q.get('b1'); const b1t = q.get('b1t')||'Записаться';
+      const b2 = q.get('b2'); const b2t = q.get('b2t')||'WhatsApp';
+      const b3 = q.get('b3'); const b3t = q.get('b3t')||'Мои программы';
+      if(logo) document.getElementById('brandLogo').src = logo;
+      if(tag) document.getElementById('brandTag').textContent = decodeURIComponent(tag);
+      if(b1) {const el = document.getElementById('btnSignup'); el.href=b1; el.textContent=b1t;} else $('#btnSignup').style.display='none';
+      if(b2) {const el = document.getElementById('btnWhatsApp'); el.href=b2; el.textContent=b2t;} else $('#btnWhatsApp').style.display='none';
+      if(b3) {const el = document.getElementById('btnPrograms'); el.href=b3; el.textContent=b3t;} else $('#btnPrograms').style.display='none';
+
+      if(!q.has('age')) return;
+      $('#sex').value = q.get('sex')||'female';
+      $('#units').value = q.get('units')||'metric';
+      toggleUnits();
+      if($('#units').value==='metric'){
+        if(q.get('heightCm')) $('#heightCm').value = q.get('heightCm');
+        if(q.get('weightKg')) $('#weightKg').value = q.get('weightKg');
+      }
+      $('#age').value = q.get('age')||'';
+      if(q.get('activity')) $('#activity').value = q.get('activity');
+      if(q.get('pPerKg')) $('#proteinPerKg').value = q.get('pPerKg');
+      if(q.get('fPerKg')) $('#fatPerKg').value = q.get('fPerKg');
+      calc();
+    }
+
+    $('#units').addEventListener('change', toggleUnits);
+    $('#calcBtn').addEventListener('click', calc);
+    $('#shareBtn').addEventListener('click', ()=>{
+      if(!location.search.includes('age=')) calc();
+      navigator.clipboard.writeText(location.href).then(()=>{
+        alert('Ссылка с вашими параметрами скопирована. Её можно поставить в био Instagram.');
+      });
+    });
+
+    loadFromURL();
+  </script>
+</body>
+</html>
